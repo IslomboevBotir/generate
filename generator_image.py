@@ -48,7 +48,7 @@ def residence_name(font_size, color, text):
         metrics = draw.get_font_metrics(first_image,line, False)
         text_width = metrics.text_width
         draw.text(round(x), round(y), line)
-        x = text_width//2
+        x = text_width//2.5
         y += font_size
 
     draw(combined_image)
@@ -119,7 +119,7 @@ def sqft_info(font_size, color, text):
 
 
 
-second_combined_images(image1)
+second_combined_images(image1, image2)
 residence_name(300, 'white', 'NEW RESIDENCE IN DUBAI')
 beds_info(300, 'black', 'BEDS10')
 floor_info(300, 'black', 'FLOOR43')

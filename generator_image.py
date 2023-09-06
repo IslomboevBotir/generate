@@ -10,14 +10,14 @@ second_image = Image(width=4960, height=4677, background=Color('white')) # бе�
 combined_image = Image(width=first_image.width + second_image.width, height=max(first_image.height, second_image.height))
 combined_image.composite(first_image, left=0, top=0)
 combined_image.composite(second_image, left=first_image.width, top=0) #соединение фона
-
-image1 = Image(filename='1.png')
-image2 = Image(filename='2.png')
-image3 = Image(filename='3.png')
-image4 = Image(filename='4.png')
-salar = Image(filename='Salar.jpg')
-
-def second_combined_images(*images):
+images = (
+    Image(filename='1.png'),
+    Image(filename='2.png'),
+    Image(filename='3.png'),
+    Image(filename='4.png'),
+    Image(filename='Salar.jpg'),
+)
+def second_combined_images(images):
     num_images = len(images)
     assert 1 <= num_images <= 3, "Функция принимает от 1 до 3 изображений."
     image1_width = second_image.width // num_images
@@ -26,7 +26,13 @@ def second_combined_images(*images):
         image = images[i]
         image_kf = image.height / image.width * image1_width
         image.scale(image1_width, int(image_kf))
-        combined_image.composite(image, left=x_positions[i], top=round(second_image.height / 3) if num_images == 3 else round(second_image.height / 8))
+        if num_images == 3:
+            combined_image.composite(image, left=x_positions[i], top=round(second_image.height /5)) 
+        elif num_images == 2:
+            combined_image.composite(image, left=x_positions[i], top=round(second_image.height /4))
+        else:
+            combined_image.composite(image, left=x_positions[i], top=round(second_image.height / 8))
+
 draw = Drawing()
 
 def residence_name(font_size, color, text):
@@ -119,7 +125,7 @@ def sqft_info(font_size, color, text):
 
 
 
-second_combined_images(image1, image2)
+second_combined_images(images[:1])   
 residence_name(300, 'white', 'NEW RESIDENCE IN DUBAI')
 beds_info(300, 'black', 'BEDS10')
 floor_info(300, 'black', 'FLOOR43')
@@ -127,11 +133,9 @@ sqft_info(300, 'black', 'SQ.FT4893')
 
 
 combined_image.save(filename='generate.jpg')
+for image in images:
+    image.close()
 
 first_image.close()
 second_image.close()
 combined_image.close()
-image1.close()
-image2.close()
-image3.close()
-image4.close()
